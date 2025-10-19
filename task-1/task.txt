@@ -1,0 +1,25 @@
+## BEGINNER LEVEL (Setup & Basics)
+
+**Goal:** Understand Pods, Deployments, and Services
+
+1. **Run a Golang Hello World App**
+
+   * Learn how to deploy a simple container to Kubernetes.
+   * Create a `Deployment` and a `Service` using YAML.
+
+2. **Expose It on Browser**
+
+   * Learn how to expose apps using `NodePort` or `LoadBalancer`.
+   * Use `kubectl expose` or write a `Service` YAML.
+
+3. **Scale Your App**
+
+   * Increase replicas of pods.
+   * Command: `kubectl scale deployment hello-deploy --replicas=3`.
+
+4. **Delete a Pod and Watch Self-Healing**
+
+   * Learn how Kubernetes restarts failed pods.
+   * Command: `kubectl delete pod <pod-name>`.
+
+
