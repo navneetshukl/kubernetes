@@ -23,7 +23,7 @@ func main() {
 	var err error
 	connStr := fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		getEnv("DB_HOST", "localhost"),
+		getEnv("DB_HOST", "postgres"),
 		getEnv("DB_PORT", "5433"),
 		getEnv("DB_USER", "postgres"),
 		getEnv("DB_PASSWORD", "password"),

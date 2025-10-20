@@ -13,15 +13,14 @@ RUN npm install
 # Copy the rest of the app
 COPY . .
 
-# Build the React app for production
+# Build the React app for production (Vite outputs to dist/)
 RUN npm run build
-
 
 # ---- Production Stage ----
 FROM nginx:alpine
 
 # Copy built React files from builder stage to Nginx web root
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Expose Nginx default port
 EXPOSE 80

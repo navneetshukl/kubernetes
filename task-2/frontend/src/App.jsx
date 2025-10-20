@@ -14,7 +14,7 @@ function App() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/users");
+      const res = await axios.get("http://backend:8080/users");
       setSubmittedData(res.data);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -25,7 +25,7 @@ function App() {
     if (!name || !mobile) return alert("Please fill all fields");
 
     try {
-      await axios.post("http://localhost:8080/add", {
+      await axios.post("http://backend:8080/add", {
         name: name,
         password: mobile, // backend expects { name, password }
       });
