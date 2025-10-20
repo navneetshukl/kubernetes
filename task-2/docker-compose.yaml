@@ -27,16 +27,7 @@ services:
       DB_NAME: mydb
       DB_PORT: 5432
     ports:
-      - "8080:8080"
-
-  frontend:
-    build: ./frontend
-    container_name: react_frontend
-    restart: always
-    depends_on:
-      - backend
-    ports:
-      - "3000:80"
+      - "9000:8080"
 
 volumes:
   postgres_data:

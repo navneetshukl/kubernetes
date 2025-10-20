@@ -21,10 +21,12 @@ var db *sql.DB
 
 func main() {
 	var err error
+
+	// Use internal Docker network port (5432) for Postgres
 	connStr := fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		getEnv("DB_HOST", "postgres"),
-		getEnv("DB_PORT", "5433"),
+		getEnv("DB_HOST", "localhost"),   // service name in Docker Compose
+		getEnv("DB_PORT", "5433"),       // internal container port
 		getEnv("DB_USER", "postgres"),
 		getEnv("DB_PASSWORD", "password"),
 		getEnv("DB_NAME", "mydb"),
@@ -32,19 +34,33 @@ func main() {
 
 	db, err = sql.Open("postgres", connStr)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Error connecting to DB:", err)
 	}
+	log.Println("Connected to DB")
 
-	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, name TEXT, password TEXT)`)
+	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS users (
+		id SERIAL PRIMARY KEY,
+		name TEXT,
+		password TEXT
+	)`)
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	// HTTP handlers
 	mux := http.NewServeMux()
 	mux.HandleFunc("/users", getUsers)
 	mux.HandleFunc("/add", addUser)
 
-	handler := cors.AllowAll().Handler(mux)
+	// Enable CORS only for frontend host (localhost:3000)
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:5173","http://frontend:80"}, // change if frontend host changes
+		AllowedMethods:   []string{"GET", "POST", "OPTIONS"},
+		AllowedHeaders:   []string{"Content-Type"},
+		AllowCredentials: true,
+	})
+
+	handler := c.Handler(mux)
 
 	fmt.Println("Server running on port 8080...")
 	log.Fatal(http.ListenAndServe(":8080", handler))

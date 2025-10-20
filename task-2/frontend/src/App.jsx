@@ -7,14 +7,13 @@ function App() {
   const [mobile, setMobile] = useState("");
   const [submittedData, setSubmittedData] = useState([]);
 
-  // Fetch all users on page load
   useEffect(() => {
     fetchUsers();
   }, []);
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://backend:8080/users");
+      const res = await axios.get("http://localhost:9000/users");
       setSubmittedData(res.data);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -25,14 +24,14 @@ function App() {
     if (!name || !mobile) return alert("Please fill all fields");
 
     try {
-      await axios.post("http://backend:8080/add", {
+      await axios.post("http://localhost:9000/add", {
         name: name,
-        password: mobile, // backend expects { name, password }
+        password: mobile,
       });
       alert("User added successfully");
       setName("");
       setMobile("");
-      fetchUsers(); // refresh the list
+      fetchUsers();
     } catch (error) {
       console.error("Error adding user:", error);
       alert("Failed to add user");
