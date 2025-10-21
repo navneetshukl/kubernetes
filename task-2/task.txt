@@ -1,0 +1,15 @@
+### 🧩 2. Multi-Tier App: Frontend + Backend + DB
+
+**Concepts:** Multi-container setup, environment variables, Services, ConfigMaps, Secrets.
+**What to build:**
+
+* React frontend + Go backend + PostgreSQL DB.
+* Use:
+
+  * `ConfigMap` for DB host, user, etc.
+  * `Secret` for DB password.
+  * `Deployment` for backend and frontend.
+  * `Service` for internal communication.
+  * `PersistentVolumeClaim (PVC)` for DB storage.
+
+**Bonus:** Expose frontend externally using `NodePort`.

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: golang-backend-deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: golang-backend
+  
+  template:
+    metadata:
+      labels:
+        app: golang-backend
+      spec:
+        containers:
+        - name: golang-backend
+          image:
+          ports: 
+          - containerPort: 8080
+          env:
+          - name: DB_HOST
+            value: postgres
+          - name: DB_USER
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: POSTGRES_USER
+
+          - name: DB_PASSWORD
+            valueFrom:
+              secretRef:
+                name: postgres-secret
+                key: POSTGRES_PASSWORD
+          - name: DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: POSTGRES_DB
+
+          - name: DB_PORT
+            value: "5432"
