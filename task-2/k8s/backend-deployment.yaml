@@ -13,31 +13,29 @@ spec:
     metadata:
       labels:
         app: golang-backend
-      spec:
-        containers:
-        - name: golang-backend
-          image:
-          ports: 
-          - containerPort: 8080
-          env:
-          - name: DB_HOST
-            value: postgres
-          - name: DB_USER
-            valueFrom:
-              configMapKeyRef:
-                name: postgres-config
-                key: POSTGRES_USER
-
-          - name: DB_PASSWORD
-            valueFrom:
-              secretRef:
-                name: postgres-secret
-                key: POSTGRES_PASSWORD
-          - name: DB_NAME
-            valueFrom:
-              configMapKeyRef:
-                name: postgres-config
-                key: POSTGRES_DB
-
-          - name: DB_PORT
-            value: "5432"
+    spec:                              # ✅ moved spec here (same level as metadata)
+      containers:
+      - name: golang-backend
+        image: navneetshukla/kubernetes-task-2
+        ports: 
+        - containerPort: 8080
+        env:
+        - name: DB_HOST
+          value: postgres-11
+        - name: DB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:             # ✅ correct field name is secretKeyRef, not secretRef
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_DB
+        - name: DB_PORT
+          value: "5432"
